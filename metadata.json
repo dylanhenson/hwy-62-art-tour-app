@@ -1,0 +1,6 @@
+{
+  "name": "Artist Studio Tour Map",
+  "description": "An interactive map featuring artist open studios, mediums, and schedules, with responsive mobile drawer layouts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
