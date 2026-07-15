@@ -8,8 +8,8 @@ interface StudioListProps {
   selectedStudio: Studio | null;
   onSelectStudio: (studio: Studio | null) => void;
   isMobile: boolean;
-  isMobileListMinimized: boolean;
-  setIsMobileListMinimized: (minimized: boolean) => void;
+  mobileHeightMode: "minimized" | "half" | "full";
+  setMobileHeightMode: (mode: "minimized" | "half" | "full") => void;
 }
 
 export default function StudioList({
@@ -17,8 +17,8 @@ export default function StudioList({
   selectedStudio,
   onSelectStudio,
   isMobile,
-  isMobileListMinimized,
-  setIsMobileListMinimized,
+  mobileHeightMode,
+  setMobileHeightMode,
 }: StudioListProps) {
   const getColor = (med: string) => MEDIUM_COLORS[med] || MEDIUM_COLORS["Default"];
 
@@ -28,7 +28,7 @@ export default function StudioList({
       <div 
         onClick={() => {
           if (isMobile) {
-            setIsMobileListMinimized(!isMobileListMinimized);
+            setMobileHeightMode(mobileHeightMode === "minimized" ? "half" : "minimized");
           }
         }}
         className={`px-6 py-4 bg-[#F5EFE6]/45 border-b border-[#EAE3D5] shrink-0 flex items-center justify-between select-none ${
@@ -41,7 +41,7 @@ export default function StudioList({
           </span>
           {isMobile && (
             <span className="text-[10px] text-[#A8A296] font-sans font-medium">
-              (tap to {isMobileListMinimized ? "expand" : "collapse"})
+              (tap to {mobileHeightMode === "minimized" ? "expand" : "collapse"})
             </span>
           )}
         </div>
@@ -109,23 +109,17 @@ export default function StudioList({
                     <div className="flex items-center justify-between gap-2 mt-1.5">
                       {/* Weekend active pills */}
                       <div className="flex gap-1 text-[9px] font-bold">
-                        {Number(studio.studioNumber) === 58 || studio.weekends.some(w => w.toLowerCase().includes("appointment")) ? (
-                          <span className="px-1.5 py-0.5 rounded text-red-600 bg-red-50 border border-red-200">
-                            Appt Only
-                          </span>
-                        ) : (
-                          studio.weekends.map((wknd) => {
-                            const simpleName = wknd.replace("Weekend ", "W");
-                            return (
-                              <span
-                                key={wknd}
-                                className="px-1.5 py-0.5 rounded text-white bg-[#5B7C63]"
-                              >
-                                {simpleName}
-                              </span>
-                            );
-                          })
-                        )}
+                        {studio.weekends.map((wknd) => {
+                          const simpleName = wknd.replace("Weekend ", "W");
+                          return (
+                            <span
+                              key={wknd}
+                              className="px-1.5 py-0.5 rounded text-white bg-[#5B7C63]"
+                            >
+                              {simpleName}
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>

@@ -1,6 +1,7 @@
+import React, { useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X } from "lucide-react";
-import { Studio } from "../types";
+import { X, Search } from "lucide-react";
+import { Studio, MapFilters } from "../types";
 import { MEDIUM_COLORS } from "../data/defaultArtists";
 import SafeImage from "./SafeImage";
 import StudioDetail from "./StudioDetail";
@@ -12,11 +13,12 @@ interface SidebarProps {
   selectedStudio: Studio | null;
   onSelectStudio: (studio: Studio | null) => void;
   isMobile: boolean;
-  isMobileListMinimized: boolean;
-  setIsMobileListMinimized: (minimized: boolean) => void;
+  mobileHeightMode: "minimized" | "half" | "full";
+  setMobileHeightMode: (mode: "minimized" | "half" | "full") => void;
   showMobileFullProfile?: boolean;
   setShowMobileFullProfile?: (show: boolean) => void;
-  searchQuery?: string;
+  filters: MapFilters;
+  onFilterChange: (filters: MapFilters) => void;
 }
 
 export default function Sidebar({
@@ -24,17 +26,55 @@ export default function Sidebar({
   selectedStudio,
   onSelectStudio,
   isMobile,
-  isMobileListMinimized,
-  setIsMobileListMinimized,
+  mobileHeightMode,
+  setMobileHeightMode,
   showMobileFullProfile = false,
   setShowMobileFullProfile = () => {},
-  searchQuery = "",
+  filters,
+  onFilterChange,
 }: SidebarProps) {
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const getColor = (med: string) => MEDIUM_COLORS[med] || MEDIUM_COLORS["Default"];
 
   const getDirectionsUrl = (address: string, town: string, zip: string) => {
     const fullQuery = `${address}, ${town}, CA ${zip}`;
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullQuery)}`;
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onFilterChange({ ...filters, searchQuery: e.target.value });
+  };
+
+  const handleSearchFocus = () => {
+    setMobileHeightMode("full");
+    // iOS Safari keyboard scroll-into-view fix: reset layout viewport scroll position
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+  };
+
+  const handleSearchDone = () => {
+    if (searchInputRef.current) {
+      searchInputRef.current.blur();
+    }
+    setMobileHeightMode("half");
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+  };
+
+  const handleClearSearch = () => {
+    onFilterChange({ ...filters, searchQuery: "" });
+  };
+
+  const handleDragBarClick = () => {
+    if (mobileHeightMode === "minimized") {
+      setMobileHeightMode("half");
+    } else if (mobileHeightMode === "half") {
+      setMobileHeightMode("minimized");
+    } else if (mobileHeightMode === "full") {
+      setMobileHeightMode("half");
+    }
   };
 
   // Render Mobile Layout with touch-friendly slide-up drawer and floating Airbnb-style preview card
@@ -71,7 +111,7 @@ export default function Sidebar({
                 studio={selectedStudio}
                 onBack={() => setShowMobileFullProfile(false)}
                 isMobile={true}
-                searchQuery={searchQuery}
+                searchQuery={filters.searchQuery}
               />
             </div>
           </motion.div>
@@ -170,8 +210,12 @@ export default function Sidebar({
         )}
 
         {/* Traditional list bottom sheet only when NO studio is selected */}
-        {!selectedStudio && filteredStudios.length > 0 && (
-          <div className="absolute inset-x-0 bottom-0 z-20 pointer-events-none">
+        {!selectedStudio && (
+          <div 
+            className={`fixed inset-x-0 bottom-0 z-20 pointer-events-none ${
+              mobileHeightMode === "full" ? "top-[112px] h-[calc(100dvh-112px)]" : ""
+            }`}
+          >
             {/* Slide drawer for listing */}
             <motion.div
               key="mobile-listing-drawer"
@@ -180,27 +224,65 @@ export default function Sidebar({
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 26, stiffness: 220 }}
               className={`relative w-full ${
-                isMobileListMinimized ? "h-[76px]" : "h-[45vh]"
+                mobileHeightMode === "minimized"
+                  ? "h-[116px]"
+                  : mobileHeightMode === "half"
+                  ? "h-[48vh]"
+                  : "h-full"
               } bg-[#FCFAF7] rounded-t-3xl shadow-2xl border-t border-[#EAE3D5] overflow-hidden flex flex-col pointer-events-auto transition-all duration-300`}
             >
               {/* Drag bar indicator */}
               <div 
-                onClick={() => setIsMobileListMinimized(!isMobileListMinimized)}
+                onClick={handleDragBarClick}
                 className="h-6 w-full flex items-center justify-center bg-[#FCFAF7] sticky top-0 z-30 shrink-0 cursor-pointer"
               >
                 <div className="w-12 h-1 bg-zinc-300 rounded-full" />
               </div>
 
+              {/* iOS-Style Search Input at the top of bottom drawer */}
+              <div className="px-4 pb-3 shrink-0 border-b border-[#EAE3D5]/40 flex items-center gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A296]" />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={filters.searchQuery}
+                    onChange={handleSearchChange}
+                    onFocus={handleSearchFocus}
+                    placeholder="Search artists, mediums, or studios..."
+                    className="w-full bg-[#F5EFE6]/45 border border-[#EAE3D5] rounded-full pl-9 pr-10 py-2 text-base text-[#2B2523] placeholder-[#A8A296] focus:outline-hidden focus:ring-2 focus:ring-[#C85C40]/20 focus:border-[#C85C40] focus:bg-white transition-all shadow-2xs"
+                  />
+                  {filters.searchQuery && (
+                    <button
+                      type="button"
+                      onClick={handleClearSearch}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A8A296] hover:text-[#2B2523] p-1 rounded-full hover:bg-[#F5EFE6] transition-all cursor-pointer flex items-center justify-center"
+                      title="Clear search"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+                {mobileHeightMode === "full" && (
+                  <button
+                    onClick={handleSearchDone}
+                    className="text-sm font-semibold text-[#C85C40] px-2 py-1 hover:bg-[#F5EFE6] rounded-lg transition-colors cursor-pointer"
+                  >
+                    Done
+                  </button>
+                )}
+              </div>
+
               {/* Drawer Body content */}
-              <div className={`flex-1 ${isMobileListMinimized ? "overflow-hidden" : "overflow-y-auto"}`}>
+              <div className={`flex-1 ${mobileHeightMode === "minimized" ? "overflow-hidden" : "overflow-y-auto"}`}>
                 <div className="flex flex-col h-full">
                   <StudioList
                     filteredStudios={filteredStudios}
                     selectedStudio={selectedStudio}
                     onSelectStudio={onSelectStudio}
                     isMobile={isMobile}
-                    isMobileListMinimized={isMobileListMinimized}
-                    setIsMobileListMinimized={setIsMobileListMinimized}
+                    mobileHeightMode={mobileHeightMode}
+                    setMobileHeightMode={setMobileHeightMode}
                   />
                 </div>
               </div>
@@ -219,7 +301,7 @@ export default function Sidebar({
           studio={selectedStudio}
           onBack={() => onSelectStudio(null)}
           isMobile={false}
-          searchQuery={searchQuery}
+          searchQuery={filters.searchQuery}
         />
       ) : (
         <StudioList
@@ -227,8 +309,8 @@ export default function Sidebar({
           selectedStudio={selectedStudio}
           onSelectStudio={onSelectStudio}
           isMobile={false}
-          isMobileListMinimized={false}
-          setIsMobileListMinimized={() => {}}
+          mobileHeightMode="minimized"
+          setMobileHeightMode={() => {}}
         />
       )}
     </div>

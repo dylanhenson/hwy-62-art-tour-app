@@ -258,36 +258,29 @@ export default function StudioDetail({
             Studio Exhibition Days
           </p>
           <div className="flex flex-wrap gap-1.5">
-            {Number(studio.studioNumber) === 58 ? (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-red-50 text-red-600 border border-red-200 text-[10px] font-extrabold uppercase tracking-wider shadow-2xs">
-                <Calendar className="w-3.5 h-3.5 shrink-0 text-red-500" />
-                By appointment only
-              </span>
-            ) : (
-              ["Weekend 1", "Weekend 2", "Weekend 3"].map((wknd) => {
-                const isActive = studio.weekends.includes(wknd);
-                const activeClasses =
-                  wknd === "Weekend 1"
-                    ? "bg-[#C85C40]/10 text-[#C85C40] border-[#C85C40]/30"
-                    : wknd === "Weekend 2"
-                    ? "bg-[#5B7C63]/10 text-[#5B7C63] border-[#5B7C63]/30"
-                    : "bg-[#827397]/10 text-[#827397] border-[#827397]/30";
+            {["Weekend 1", "Weekend 2", "Weekend 3"].map((wknd) => {
+              const isActive = studio.weekends.includes(wknd);
+              const activeClasses =
+                wknd === "Weekend 1"
+                  ? "bg-[#C85C40]/10 text-[#C85C40] border-[#C85C40]/30"
+                  : wknd === "Weekend 2"
+                  ? "bg-[#5B7C63]/10 text-[#5B7C63] border-[#5B7C63]/30"
+                  : "bg-[#827397]/10 text-[#827397] border-[#827397]/30";
 
-                return (
-                  <span
-                    key={wknd}
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold border ${
-                      isActive
-                        ? activeClasses
-                        : "bg-[#F5EFE6]/20 text-[#A8A296] border-[#EAE3D5]/40 line-through decoration-1"
-                    }`}
-                  >
-                    <Calendar className="w-3 h-3 shrink-0" />
-                    {wknd}
-                  </span>
-                );
-              })
-            )}
+              return (
+                <span
+                  key={wknd}
+                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold border ${
+                    isActive
+                      ? activeClasses
+                      : "bg-[#F5EFE6]/20 text-[#A8A296] border-[#EAE3D5]/40 line-through decoration-1"
+                  }`}
+                >
+                  <Calendar className="w-3 h-3 shrink-0" />
+                  {wknd}
+                </span>
+              );
+            })}
           </div>
         </div>
 

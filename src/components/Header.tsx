@@ -54,29 +54,7 @@ export default function Header({
         </div>
 
         {/* 1. Mobile Filter Section (Airbnb Style Scrollable Top Filters Bar) */}
-        <div className="flex md:hidden flex-col gap-2 mt-2">
-          {/* Compact Search Input */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A296]" />
-            <input
-              type="text"
-              value={filters.searchQuery}
-              onChange={handleSearchChange}
-              placeholder="Search artists, mediums, or studios..."
-              className="w-full bg-[#F5EFE6]/45 border border-[#EAE3D5] rounded-full pl-9 pr-10 py-2 text-base md:text-xs text-[#2B2523] placeholder-[#A8A296] focus:outline-hidden focus:ring-2 focus:ring-[#C85C40]/20 focus:border-[#C85C40] focus:bg-white transition-all shadow-2xs"
-            />
-            {filters.searchQuery && (
-              <button
-                type="button"
-                onClick={() => onFilterChange({ ...filters, searchQuery: "" })}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A8A296] hover:text-[#2B2523] p-1 rounded-full hover:bg-[#F5EFE6] transition-all cursor-pointer flex items-center justify-center"
-                title="Clear search"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-
+        <div className="flex md:hidden flex-col gap-2 mt-1.5">
           {/* Horizontal Row of Pills (Scrollable for premium Airbnb feel) */}
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 -mx-4 px-4 whitespace-nowrap">
             {/* Medium Pill Dropdown with hidden real select */}
