@@ -163,7 +163,7 @@ export default function App() {
   }, [filteredStudios, selectedStudio]);
 
   return (
-    <div className="flex flex-col h-full w-full overflow-hidden bg-[#FCFAF7] font-sans antialiased text-[#2B2523]">
+    <div className="flex flex-col h-full w-full overflow-hidden bg-[#fec811] font-sans antialiased text-[#2B2523]">
       {/* Settings / Search header */}
       <Header
         filters={filters}

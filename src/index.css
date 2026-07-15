@@ -77,43 +77,43 @@ body,
 /* No custom map styling filters - preserve native tile colors */
 
 .leaflet-container .leaflet-control-attribution {
-  background: rgba(253, 251, 247, 0.85) !important;
-  color: #7A746B !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  color: #5C5245 !important;
   font-size: 9px !important;
   font-family: var(--font-mono) !important;
   border-top-left-radius: 4px;
 }
 
 .leaflet-bar {
-  border: 1px solid #EAE3D5 !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
   box-shadow: 0 2px 8px rgba(43, 37, 35, 0.08) !important;
 }
 
 .leaflet-bar a {
-  background-color: #FCFAF7 !important;
-  color: #2B2523 !important;
-  border-bottom: 1px solid #EAE3D5 !important;
+  background-color: #fec811 !important;
+  color: #1A1615 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
 }
 
 .leaflet-bar a:hover {
-  background-color: #FAF4E8 !important;
-  color: #D97706 !important;
+  background-color: white !important;
+  color: #C85C40 !important;
 }
 
-/* Desert parchment custom scrollbars */
+/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FCFAF7;
+  background: #fec811;
 }
 ::-webkit-scrollbar-thumb {
-  background: #EAE3D5;
+  background: #E5B203;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #D5C9B3;
+  background: #B28701;
 }
 
 /* Smooth transit for mobile drawer dragging */
