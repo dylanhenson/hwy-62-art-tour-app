@@ -343,8 +343,7 @@ async function run() {
         "reformatted FB"
       ]) || "";
       
-      const appointmentOnly = getField(row, ["Also Available By Appointment?"])?.toLowerCase() === "yes" || 
-                              showingStr.toLowerCase().includes("appointment");
+      const appointmentOnly = false;
 
       const artistIdVal = getField(row, ["artist_id", "artist id", "Artist ID", "ARTIST ID", "artist-id"])?.trim();
       const userId = getField(row, ["USER ID", "User ID"]);

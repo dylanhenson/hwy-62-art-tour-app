@@ -3264,7 +3264,7 @@ export const DEFAULT_STUDIOS: Studio[] = [
   },
   {
     "studioNumber": 79,
-    "studioName": "DESERT SHADOW ARTWORKS Studio",
+    "studioName": "MICAH HEIMLICH Studio",
     "address": "7459 Chippewa Trl, Yucca Valley, CA",
     "town": "Yucca Valley",
     "zipCode": "92252",
@@ -3280,7 +3280,7 @@ export const DEFAULT_STUDIOS: Studio[] = [
     "artists": [
       {
         "id": "artist-heimlich_micah",
-        "name": "DESERT SHADOW ARTWORKS",
+        "name": "MICAH HEIMLICH",
         "email": "micah@unheim.com",
         "website": "BookofMica.com",
         "instagram": "@unheim.design",
