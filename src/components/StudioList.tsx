@@ -23,7 +23,7 @@ export default function StudioList({
   const getColor = (med: string) => MEDIUM_COLORS[med] || MEDIUM_COLORS["Default"];
 
   return (
-    <div className="flex flex-col h-full bg-[#FCFAF7] overflow-hidden">
+    <div className="flex flex-col h-full bg-[#fec811] overflow-hidden">
       {/* Status bar */}
       <div 
         onClick={() => {
@@ -53,7 +53,7 @@ export default function StudioList({
       </div>
 
       {/* List items scroll container */}
-      <div className="flex-1 overflow-y-auto divide-y divide-[#EAE3D5]/60">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
         {filteredStudios.length > 0 ? (
           filteredStudios.map((studio) => {
             const primaryArtist = studio.artists[0];
@@ -66,8 +66,10 @@ export default function StudioList({
               <div
                 key={studio.studioNumber}
                 onClick={() => onSelectStudio(studio)}
-                className={`group flex flex-col gap-3 p-5 hover:bg-[#F5EFE6]/30 cursor-pointer transition-all duration-200 ${
-                  isSelected ? "bg-[#FAF4E8]/80 border-l-4 border-l-[#C85C40] pl-4" : "border-l-4 border-l-transparent"
+                className={`group flex flex-col gap-3 p-4 transition-all duration-200 cursor-pointer shadow-xs border ${
+                  isSelected 
+                    ? "bg-white border-black/10 rounded-2xl shadow-md border-l-4 border-l-[#C85C40] pl-3" 
+                    : "bg-[#fec811] hover:bg-white/10 border-black/5 rounded-2xl border-l-4 border-l-transparent"
                 }`}
               >
                 {/* Header Row: Studio number + Artist count text */}
@@ -76,12 +78,16 @@ export default function StudioList({
                     <span className="text-xs font-bold font-mono text-[#C85C40] bg-[#C85C40]/10 px-2 py-0.5 rounded-md">
                       STUDIO #{studio.studioNumber}
                     </span>
-                    <span className="text-[11px] font-semibold text-[#7A746B]">
+                    <span className={`text-[11px] font-bold ${isSelected ? "text-[#5C5245]" : "text-[#4A3C15]"}`}>
                       {studio.town}
                     </span>
                   </div>
                   {/* Text indicating how many artists are at the studio */}
-                  <span className="text-[10px] bg-[#FAF6F0] text-[#7A746B] border border-[#EAE3D5] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 border ${
+                    isSelected 
+                      ? "bg-[#FAF6F0] text-[#5C5245] border-black/5" 
+                      : "bg-white/40 text-[#4A3C15] border-black/5"
+                  }`}>
                     {totalArtists === 1 ? "1 Artist" : `${totalArtists} Artists`}
                   </span>
                 </div>
@@ -89,7 +95,7 @@ export default function StudioList({
                 {/* Main body content */}
                 <div className="flex gap-4">
                   {/* Left: Round image preview of the studio */}
-                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-[#1A1615] shrink-0 relative shadow-2xs border border-[#EAE3D5]">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-[#1A1615] shrink-0 relative shadow-2xs border border-black/10">
                     <SafeImage
                       src={primaryArtist.imageUrl}
                       alt={primaryArtist.name}
@@ -101,7 +107,7 @@ export default function StudioList({
                   {/* Right: Address + Weekends */}
                   <div className="flex-1 min-w-0 flex flex-col justify-between">
                     <div>
-                      <p className="text-xs text-[#7A746B] leading-relaxed">
+                      <p className={`text-xs leading-relaxed ${isSelected ? "text-[#5C5245]" : "text-[#4A3C15] font-medium"}`}>
                         {studio.address}
                       </p>
                     </div>
@@ -114,7 +120,7 @@ export default function StudioList({
                           return (
                             <span
                               key={wknd}
-                              className="px-1.5 py-0.5 rounded text-white bg-[#5B7C63]"
+                              className="px-1.5 py-0.5 rounded text-white bg-[#C85C40]"
                             >
                               {simpleName}
                             </span>
@@ -132,9 +138,13 @@ export default function StudioList({
                     return (
                       <div
                         key={artist.id}
-                        className="bg-white border border-[#EAE3D5]/80 rounded-xl p-2.5 flex items-center gap-2.5 shadow-3xs transition-all hover:border-[#C85C40]/50"
+                        className={`${
+                          isSelected 
+                            ? "bg-zinc-50 border border-black/5" 
+                            : "bg-white border border-black/5 shadow-2xs"
+                        } rounded-xl p-2.5 flex items-center gap-2.5 shadow-3xs transition-all hover:border-[#C85C40]/50`}
                       >
-                        <div className="w-9 h-9 rounded-lg overflow-hidden border border-[#EAE3D5]/60 shrink-0 bg-[#1A1615]">
+                        <div className="w-9 h-9 rounded-lg overflow-hidden border border-black/5 shrink-0 bg-[#1A1615]">
                           <SafeImage
                             src={artist.imageUrl}
                             alt={artist.name}
@@ -143,10 +153,10 @@ export default function StudioList({
                           />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="text-xs font-bold text-[#2B2523] truncate leading-tight">
+                          <p className="text-xs font-bold text-[#1A1615] truncate leading-tight">
                             {artist.name}
                           </p>
-                          <span className="inline-flex items-center gap-1.5 text-[10px] text-[#7A746B] leading-none mt-1">
+                          <span className="inline-flex items-center gap-1.5 text-[10px] text-[#5C5245] leading-none mt-1">
                             <span
                               className="inline-block w-1.5 h-1.5 rounded-full shrink-0"
                               style={{ backgroundColor: artColor }}
@@ -162,10 +172,10 @@ export default function StudioList({
             );
           })
         ) : (
-          <div className="p-12 text-center text-[#A8A296] bg-[#FCFAF7]">
-            <Compass className="w-8 h-8 mx-auto mb-2 text-[#EAE3D5] animate-pulse" />
-            <p className="text-sm font-medium text-[#7A746B]">No studios match your filter</p>
-            <p className="text-xs text-[#A8A296] mt-1">Try resetting or modifying search filters above.</p>
+          <div className="p-12 text-center text-[#5C5245] bg-[#fec811]">
+            <Compass className="w-8 h-8 mx-auto mb-2 text-[#C85C40] animate-pulse" />
+            <p className="text-sm font-bold text-[#1A1615]">No studios match your filter</p>
+            <p className="text-xs text-[#5C5245] mt-1">Try resetting or modifying search filters above.</p>
           </div>
         )}
       </div>

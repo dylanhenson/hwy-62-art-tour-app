@@ -89,19 +89,19 @@ export default function Sidebar({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "20%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed inset-0 z-50 bg-[#FCFAF7] overflow-y-auto flex flex-col pointer-events-auto"
+            className="fixed inset-0 z-50 bg-[#fec811] overflow-y-auto flex flex-col pointer-events-auto"
           >
             {/* Sticky Close Header */}
-            <div className="sticky top-0 right-0 left-0 h-14 bg-[#FCFAF7]/95 backdrop-blur-md border-b border-[#EAE3D5] flex items-center justify-between px-4 z-30 shrink-0">
+            <div className="sticky top-0 right-0 left-0 h-14 bg-[#fec811]/95 backdrop-blur-md border-b border-black/10 flex items-center justify-between px-4 z-30 shrink-0">
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#C85C40] animate-pulse" />
-                <span className="text-xs font-mono font-semibold text-[#7A746B] uppercase tracking-wider">
+                <span className="text-xs font-mono font-bold text-[#4A3C15] uppercase tracking-wider">
                   Artist Profile
                 </span>
               </div>
               <button
                 onClick={() => setShowMobileFullProfile(false)}
-                className="p-1.5 bg-[#F5EFE6] hover:bg-[#EAE3D5] text-[#2B2523] rounded-full cursor-pointer transition-all duration-200"
+                className="p-1.5 bg-white/80 hover:bg-white text-[#1A1615] rounded-full cursor-pointer transition-all duration-200 border border-black/5 shadow-2xs"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -126,7 +126,7 @@ export default function Sidebar({
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 220 }}
             onClick={() => setShowMobileFullProfile(true)}
-            className="fixed bottom-4 left-4 right-4 z-30 bg-[#FCFAF7] rounded-2xl shadow-2xl border border-[#EAE3D5] overflow-hidden flex h-[140px] cursor-pointer pointer-events-auto hover:border-[#C85C40] transition-colors"
+            className="fixed bottom-4 left-4 right-4 z-30 bg-white rounded-2xl shadow-2xl border border-black/10 overflow-hidden flex h-[140px] cursor-pointer pointer-events-auto hover:border-[#C85C40] transition-colors"
           >
             {/* Left Column: Image (40% width) */}
             <div className="w-[40%] h-full relative bg-[#1A1615] overflow-hidden shrink-0">
@@ -167,17 +167,17 @@ export default function Sidebar({
               {/* Main text metadata */}
               <div className="pr-5">
                 <span 
-                  className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-[#7A746B]"
+                  className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-[#4A3C15]"
                 >
                   <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: getColor(selectedStudio.artists[0]?.medium || "") }} />
                   {selectedStudio.artists.length > 1 
                     ? `Shared Studio • ${selectedStudio.artists.length} Artists` 
                     : selectedStudio.artists[0]?.medium}
                 </span>
-                <h4 className="text-xs font-bold text-[#2B2523] font-display leading-snug line-clamp-2 mt-0.5">
+                <h4 className="text-xs font-bold text-[#1A1615] font-display leading-snug line-clamp-2 mt-0.5">
                   {selectedStudio.artists.map(a => a.name).join(", ")}
                 </h4>
-                <p className="text-[10px] text-[#7A746B] truncate mt-0.5">
+                <p className="text-[10px] text-[#5C5245] truncate mt-0.5">
                   {selectedStudio.town}
                 </p>
               </div>
@@ -199,7 +199,7 @@ export default function Sidebar({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="bg-[#5B7C63] hover:bg-[#47624E] text-white text-[11px] font-bold py-1.5 px-2 rounded-lg text-center cursor-pointer transition-colors shadow-2xs flex items-center justify-center"
+                    className="bg-[#1A1615] hover:bg-black text-white text-[11px] font-bold py-1.5 px-2 rounded-lg text-center cursor-pointer transition-colors shadow-2xs flex items-center justify-center"
                   >
                     Directions
                   </a>
@@ -229,20 +229,20 @@ export default function Sidebar({
                   : mobileHeightMode === "half"
                   ? "h-[48vh]"
                   : "h-full"
-              } bg-[#FCFAF7] rounded-t-3xl shadow-2xl border-t border-[#EAE3D5] overflow-hidden flex flex-col pointer-events-auto transition-all duration-300`}
+              } bg-[#fec811] rounded-t-3xl shadow-2xl border-t border-black/10 overflow-hidden flex flex-col pointer-events-auto transition-all duration-300`}
             >
               {/* Drag bar indicator */}
               <div 
                 onClick={handleDragBarClick}
-                className="h-6 w-full flex items-center justify-center bg-[#FCFAF7] sticky top-0 z-30 shrink-0 cursor-pointer"
+                className="h-6 w-full flex items-center justify-center bg-[#fec811] sticky top-0 z-30 shrink-0 cursor-pointer"
               >
-                <div className="w-12 h-1 bg-zinc-300 rounded-full" />
+                <div className="w-12 h-1 bg-zinc-400/50 rounded-full" />
               </div>
 
               {/* iOS-Style Search Input at the top of bottom drawer */}
-              <div className="px-4 pb-3 shrink-0 border-b border-[#EAE3D5]/40 flex items-center gap-2">
+              <div className="px-4 pb-3 shrink-0 border-b border-black/5 flex items-center gap-2">
                 <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A296]" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5C5245]" />
                   <input
                     ref={searchInputRef}
                     type="text"
@@ -250,13 +250,13 @@ export default function Sidebar({
                     onChange={handleSearchChange}
                     onFocus={handleSearchFocus}
                     placeholder="Search artists, mediums, or studios..."
-                    className="w-full bg-[#F5EFE6]/45 border border-[#EAE3D5] rounded-full pl-9 pr-10 py-2 text-base text-[#2B2523] placeholder-[#A8A296] focus:outline-hidden focus:ring-2 focus:ring-[#C85C40]/20 focus:border-[#C85C40] focus:bg-white transition-all shadow-2xs"
+                    className="w-full bg-white border border-black/10 rounded-full pl-9 pr-10 py-2 text-base text-[#1A1615] placeholder-[#5C5245]/70 focus:outline-hidden focus:ring-2 focus:ring-[#C85C40]/20 focus:border-[#C85C40] focus:bg-white transition-all shadow-2xs"
                   />
                   {filters.searchQuery && (
                     <button
                       type="button"
                       onClick={handleClearSearch}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A8A296] hover:text-[#2B2523] p-1 rounded-full hover:bg-[#F5EFE6] transition-all cursor-pointer flex items-center justify-center"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5C5245] hover:text-[#1A1615] p-1 rounded-full hover:bg-black/5 transition-all cursor-pointer flex items-center justify-center"
                       title="Clear search"
                     >
                       <X className="w-3.5 h-3.5" />
@@ -266,7 +266,7 @@ export default function Sidebar({
                 {mobileHeightMode === "full" && (
                   <button
                     onClick={handleSearchDone}
-                    className="text-sm font-semibold text-[#C85C40] px-2 py-1 hover:bg-[#F5EFE6] rounded-lg transition-colors cursor-pointer"
+                    className="text-sm font-semibold text-[#C85C40] px-2 py-1 hover:bg-black/5 rounded-lg transition-colors cursor-pointer"
                   >
                     Done
                   </button>
@@ -295,7 +295,7 @@ export default function Sidebar({
 
   // Render Desktop stationary sidebar
   return (
-    <div className="w-[420px] bg-[#FCFAF7] border-r border-[#EAE3D5] flex flex-col h-full shadow-md shrink-0 relative z-20 overflow-hidden">
+    <div className="w-[420px] bg-[#fec811] border-r border-black/10 flex flex-col h-full shadow-md shrink-0 relative z-20 overflow-hidden">
       {selectedStudio ? (
         <StudioDetail
           studio={selectedStudio}

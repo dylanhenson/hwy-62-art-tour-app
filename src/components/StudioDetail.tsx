@@ -48,20 +48,20 @@ function ArtistCard({
 
   return (
     <div
-      className={`relative bg-[#FCFAF7] border rounded-2xl p-5 space-y-4 transition-all duration-300 ${
+      className={`relative bg-white border border-black/10 rounded-2xl p-5 space-y-4 transition-all duration-300 shadow-xs ${
         isQueryMatch
-          ? "border-[#C85C40] shadow-md ring-4 ring-[#C85C40]/10 bg-white"
-          : "border-[#EAE3D5] shadow-2xs hover:shadow-xs hover:border-[#C85C40]/40"
+          ? "border-[#C85C40] shadow-md ring-4 ring-[#C85C40]/10"
+          : "hover:shadow-sm hover:border-black/20"
       }`}
     >
       {/* Top header row with Name, Host badge, and query matches */}
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h3 className="text-base font-bold font-display text-[#2B2523]">
+          <h3 className="text-base font-bold font-display text-[#1A1615]">
             {artist.name}
           </h3>
           {artist.userId && (
-            <p className="text-[10px] font-mono text-[#A8A296] mt-0.5">
+            <p className="text-[10px] font-mono text-[#5C5245] mt-0.5">
               REGISTRATION ID: {artist.userId}
             </p>
           )}
@@ -76,7 +76,7 @@ function ArtistCard({
             </span>
           )}
           {artist.isHost && (
-            <span className="bg-[#2B2523] text-white border border-white/10 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wide flex items-center gap-1 uppercase">
+            <span className="bg-[#1A1615] text-white border border-white/10 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wide flex items-center gap-1 uppercase">
               <Sparkles className="w-2.5 h-2.5 text-[#C49A45]" />
               Host
             </span>
@@ -90,7 +90,7 @@ function ArtistCard({
           className="inline-block w-2.5 h-2.5 rounded-full"
           style={{ backgroundColor: studioColor }}
         />
-        <span className="text-xs font-semibold uppercase tracking-wider text-[#7A746B]">
+        <span className="text-xs font-semibold uppercase tracking-wider text-[#5C5245]">
           {artist.medium}
           {artist.secondaryMedium && ` • ${artist.secondaryMedium}`}
         </span>
@@ -98,7 +98,7 @@ function ArtistCard({
 
       {/* Artist Artwork Image */}
       <div 
-        className="relative rounded-xl bg-[#1A1615] overflow-hidden border border-[#EAE3D5] flex items-center justify-center transition-all duration-500 mx-auto"
+        className="relative rounded-xl bg-[#1A1615] overflow-hidden border border-black/5 flex items-center justify-center transition-all duration-500 mx-auto"
         style={{
           aspectRatio: aspectRatio ? `${aspectRatio}` : "16/9",
           maxHeight: "450px",
@@ -141,29 +141,29 @@ function ArtistCard({
 
       {/* Bio / Artist Statement */}
       <div className="space-y-1">
-        <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#7A746B]">
+        <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#5C5245]">
           Artist Statement
         </h4>
-        <p className="text-xs text-[#4F4744] leading-relaxed whitespace-pre-line font-sans">
+        <p className="text-xs text-[#1A1615] leading-relaxed whitespace-pre-line font-sans">
           {artist.bio}
         </p>
       </div>
 
       {/* Individual Contact Links inside card */}
-      <div className="pt-3 border-t border-[#EAE3D5]/60 space-y-2">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-[#4F4744] break-all">
+      <div className="pt-3 border-t border-black/5 space-y-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-[#1A1615] break-all">
           {artist.phone && (
             <div className="flex items-center gap-1.5">
-              <Phone className="w-3 h-3 text-[#A8A296] shrink-0" />
-              <a href={`tel:${artist.phone}`} className="hover:text-[#C85C40] transition-colors">
+              <Phone className="w-3 h-3 text-[#C85C40] shrink-0" />
+              <a href={`tel:${artist.phone}`} className="hover:text-[#C85C40] transition-colors font-medium">
                 {artist.phone}
               </a>
             </div>
           )}
           {artist.email && (
             <div className="flex items-center gap-1.5">
-              <Mail className="w-3 h-3 text-[#A8A296] shrink-0" />
-              <a href={`mailto:${artist.email}`} className="hover:text-[#C85C40] transition-colors">
+              <Mail className="w-3 h-3 text-[#C85C40] shrink-0" />
+              <a href={`mailto:${artist.email}`} className="hover:text-[#C85C40] transition-colors font-medium">
                 {artist.email}
               </a>
             </div>
@@ -176,9 +176,9 @@ function ArtistCard({
               href={artist.website.startsWith("http") ? artist.website : `https://${artist.website}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 border border-[#EAE3D5] rounded-lg text-[10px] font-bold text-[#4F4744] bg-[#FCFAF7] hover:bg-[#FAF4E8] hover:text-[#2B2523] transition-colors shadow-2xs cursor-pointer"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 border border-black/10 rounded-lg text-[10px] font-black text-[#1A1615] bg-[#fec811]/10 hover:bg-[#fec811] hover:text-[#1A1615] transition-colors shadow-3xs cursor-pointer"
             >
-              <Globe className="w-3.5 h-3.5 text-[#7A746B]" />
+              <Globe className="w-3.5 h-3.5 text-[#5C5245]" />
               Website
             </a>
           )}
@@ -187,9 +187,9 @@ function ArtistCard({
               href={`https://instagram.com/${artist.instagram.replace("@", "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 border border-[#EAE3D5] rounded-lg text-[10px] font-bold text-[#4F4744] bg-[#FCFAF7] hover:bg-[#FAF4E8] hover:text-[#2B2523] transition-colors shadow-2xs cursor-pointer"
+              className="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 border border-black/10 rounded-lg text-[10px] font-black text-[#1A1615] bg-[#fec811]/10 hover:bg-[#fec811] hover:text-[#1A1615] transition-colors shadow-3xs cursor-pointer"
             >
-              <span className="text-[#7A746B] font-black text-[9px] tracking-tight">IG</span>
+              <span className="text-[#5C5245] font-black text-[9px] tracking-tight">IG</span>
               @{artist.instagram.replace("@", "")}
             </a>
           )}
@@ -215,12 +215,12 @@ export default function StudioDetail({
   const query = searchQuery.trim().toLowerCase();
 
   return (
-    <div className="flex flex-col h-full bg-[#FCFAF7] overflow-y-auto">
+    <div className="flex flex-col h-full bg-[#fec811] overflow-y-auto">
       {/* Back Button (Desktop-only) */}
       {!isMobile && (
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-xs font-semibold text-[#7A746B] hover:text-[#2B2523] px-6 py-4 border-b border-[#EAE3D5] transition-colors w-full text-left cursor-pointer font-sans"
+          className="flex items-center gap-2 text-xs font-bold text-[#4A3C15] hover:text-[#1A1615] px-6 py-4 border-b border-black/10 bg-white transition-colors w-full text-left cursor-pointer font-sans shadow-2xs"
         >
           <ArrowLeft className="w-4 h-4 text-[#C85C40]" />
           Back to All Studios
@@ -228,25 +228,25 @@ export default function StudioDetail({
       )}
 
       {/* Top Section: Studio Location, Details & Directions */}
-      <div className="p-6 bg-[#F5EFE6]/30 border-b border-[#EAE3D5] space-y-4 shrink-0">
+      <div className="p-6 bg-white border-b border-black/10 space-y-4 shrink-0 shadow-xs">
         <div className="flex items-center justify-between gap-3">
-          <h2 className="text-lg font-bold font-display text-[#2B2523] flex items-center gap-2">
+          <h2 className="text-lg font-bold font-display text-[#1A1615] flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#C85C40] animate-pulse" />
             Studio #{studio.studioNumber}
           </h2>
-          <span className="text-[10px] font-mono bg-[#EAE3D5]/60 text-[#4F4744] px-2.5 py-0.5 rounded-md font-bold">
+          <span className="text-[10px] font-bold bg-[#1A1615] text-white px-2.5 py-1 rounded-md">
             {studio.artists.length} {studio.artists.length === 1 ? "ARTIST" : "ARTISTS"}
           </span>
         </div>
 
         {/* Address info */}
         <div className="flex items-start gap-2.5">
-          <MapPin className="w-4 h-4 text-[#A8A296] shrink-0 mt-0.5" />
+          <MapPin className="w-4 h-4 text-[#C85C40] shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <p className="text-xs font-semibold text-[#2B2523] leading-relaxed">
+            <p className="text-xs font-bold text-[#1A1615] leading-relaxed">
               {studio.address}
             </p>
-            <p className="text-xs text-[#7A746B]">
+            <p className="text-xs text-[#5C5245] font-medium">
               {studio.town}, CA {studio.zipCode}
             </p>
           </div>
@@ -254,7 +254,7 @@ export default function StudioDetail({
 
         {/* Active Weekends */}
         <div className="space-y-1.5">
-          <p className="text-[9px] font-bold uppercase tracking-wider text-[#7A746B]">
+          <p className="text-[9px] font-bold uppercase tracking-wider text-[#5C5245]">
             Studio Exhibition Days
           </p>
           <div className="flex flex-wrap gap-1.5">
@@ -264,8 +264,8 @@ export default function StudioDetail({
                 wknd === "Weekend 1"
                   ? "bg-[#C85C40]/10 text-[#C85C40] border-[#C85C40]/30"
                   : wknd === "Weekend 2"
-                  ? "bg-[#5B7C63]/10 text-[#5B7C63] border-[#5B7C63]/30"
-                  : "bg-[#827397]/10 text-[#827397] border-[#827397]/30";
+                  ? "bg-[#2C6E49]/10 text-[#2C6E49] border-[#2C6E49]/30"
+                  : "bg-[#1F5156]/10 text-[#1F5156] border-[#1F5156]/30";
 
               return (
                 <span
@@ -273,7 +273,7 @@ export default function StudioDetail({
                   className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold border ${
                     isActive
                       ? activeClasses
-                      : "bg-[#F5EFE6]/20 text-[#A8A296] border-[#EAE3D5]/40 line-through decoration-1"
+                      : "bg-[#FAF6F0] text-zinc-400 border-zinc-200 line-through decoration-1"
                   }`}
                 >
                   <Calendar className="w-3 h-3 shrink-0" />
@@ -286,17 +286,17 @@ export default function StudioDetail({
 
         {/* Studio directions if present, or if GPS is not friendly */}
         {(studio.directions || studio.notGpsFriendly) && (
-          <div className="bg-[#FAF6F0] rounded-xl p-3 border border-[#EAE3D5] text-xs space-y-3">
-            <p className="text-[10px] font-bold text-[#7A746B] uppercase tracking-wider mb-1 flex items-center gap-1">
+          <div className="bg-[#FAF6F0] rounded-xl p-3 border border-black/5 text-xs space-y-3">
+            <p className="text-[10px] font-bold text-[#5C5245] uppercase tracking-wider mb-1 flex items-center gap-1">
               <Navigation className="w-3.5 h-3.5 text-[#C85C40] shrink-0" />
               Studio Directions:
             </p>
             {studio.directions ? (
-              <p className="text-[11px] text-[#4F4744] leading-relaxed italic">
+              <p className="text-[11px] text-[#1A1615] leading-relaxed italic">
                 {studio.directions}
               </p>
             ) : (
-              <p className="text-[11px] text-[#7A746B] leading-relaxed italic">
+              <p className="text-[11px] text-[#5C5245] leading-relaxed italic">
                 No turn-by-turn directions provided.
               </p>
             )}
@@ -321,7 +321,7 @@ export default function StudioDetail({
             href={getDirectionsUrl(studio.address, studio.town, studio.zipCode)}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#5B7C63] hover:bg-[#47624E] text-white rounded-xl text-xs font-semibold transition-all shadow-2xs cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#1A1615] hover:bg-black text-white rounded-xl text-xs font-semibold transition-all shadow-2xs cursor-pointer"
           >
             <Navigation className="w-3.5 h-3.5 shrink-0" />
             Navigate with Google Maps
@@ -330,12 +330,12 @@ export default function StudioDetail({
       </div>
 
       {/* Middle Section: Artists Header Info */}
-      <div className="px-6 py-4 bg-[#F5EFE6]/45 border-b border-[#EAE3D5] flex items-center justify-between shrink-0">
+      <div className="px-6 py-4 bg-zinc-50 border-b border-black/10 flex items-center justify-between shrink-0 shadow-xs">
         <div>
-          <h3 className="text-xs font-mono font-bold text-[#7A746B] uppercase tracking-wider">
+          <h3 className="text-xs font-mono font-bold text-[#5C5245] uppercase tracking-wider">
             Exhibiting Artists ({studio.artists.length})
           </h3>
-          <p className="text-[10px] text-[#A8A296] mt-0.5">
+          <p className="text-[10px] text-[#5C5245]/80 mt-0.5 font-medium">
             {studio.artists.length === 1
               ? "1 artist is showing work at this location."
               : `All ${studio.artists.length} artists are listed in individual cards below.`}
@@ -344,7 +344,7 @@ export default function StudioDetail({
       </div>
 
       {/* Main Artists Cards Container */}
-      <div className="p-6 space-y-6 flex-1 bg-[#FCFAF7]">
+      <div className="p-6 space-y-6 flex-1 bg-[#fec811]">
         {studio.artists.map((artist) => {
           // Check if this artist matches the query
           const isQueryMatch =

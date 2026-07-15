@@ -39,15 +39,15 @@ export default function Header({
   };
 
   return (
-    <header className="bg-[#FCFAF7] border-b border-[#EAE3D5] sticky top-0 z-40 shadow-xs">
+    <header className="bg-[#fec811] border-b border-[#EAE3D5] sticky top-0 z-40 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-4">
         {/* Title and Top Actions */}
         <div className="flex flex-row items-center justify-between gap-4">
           <div>
-            <h1 className="text-base md:text-2xl font-bold font-display tracking-tight text-[#2B2523]">
+            <h1 className="text-base md:text-2xl font-bold font-display tracking-tight text-[#1A1615]">
               Artist Studio Tour Map
             </h1>
-            <p className="hidden md:block text-xs text-[#7A746B] mt-0.5">
+            <p className="hidden md:block text-xs text-[#4A3C15] font-medium mt-0.5">
               Explore local artist studios, view biographies, and filter by weekend or artistic mediums.
             </p>
           </div>
@@ -59,10 +59,10 @@ export default function Header({
           <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 -mx-4 px-4 whitespace-nowrap">
             {/* Medium Pill Dropdown with hidden real select */}
             <div className="relative inline-block shrink-0">
-              <div className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold border transition-all cursor-pointer h-9 ${
+              <div className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold border transition-all cursor-pointer h-9 shadow-2xs ${
                 filters.selectedMedium 
                   ? "bg-[#C85C40] text-white border-[#C85C40]" 
-                  : "bg-[#FCFAF7] text-[#4F4744] border-[#EAE3D5] hover:bg-[#FAF4E8]"
+                  : "bg-white text-[#1A1615] border-black/10 hover:bg-zinc-50"
               }`}>
                 <Layers className="w-3.5 h-3.5 shrink-0" />
                 <span className="max-w-[110px] truncate">{filters.selectedMedium || "All Mediums"}</span>
@@ -83,17 +83,17 @@ export default function Header({
             </div>
 
             {/* Weekend Group with a Weekend header */}
-            <div className="flex items-center gap-1.5 bg-[#F5EFE6]/50 p-1 rounded-full border border-[#EAE3D5] shrink-0 h-9">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#7A746B] pl-2.5 pr-1 select-none flex items-center gap-1">
-                <CalendarDays className="w-3.5 h-3.5 text-[#5B7C63]" />
+            <div className="flex items-center gap-1.5 bg-white p-1 rounded-full border border-black/10 shrink-0 h-9 shadow-2xs">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#4A3C15] pl-2.5 pr-1 select-none flex items-center gap-1">
+                <CalendarDays className="w-3.5 h-3.5 text-[#C85C40]" />
                 Weekends
               </span>
               <button
                 onClick={handleWeekend1Toggle}
                 className={`w-8 h-7 flex items-center justify-center text-xs font-bold rounded-full transition-all cursor-pointer ${
                   filters.showWeekend1
-                    ? "bg-[#5B7C63] text-white shadow-xs"
-                    : "text-[#7A746B] hover:text-[#2B2523] hover:bg-[#FAF4E8]/80"
+                    ? "bg-[#C85C40] text-white shadow-xs"
+                    : "text-[#4F4744]/70 hover:text-[#1A1615] hover:bg-black/5"
                 }`}
                 title="Weekend 1"
               >
@@ -103,8 +103,8 @@ export default function Header({
                 onClick={handleWeekend2Toggle}
                 className={`w-8 h-7 flex items-center justify-center text-xs font-bold rounded-full transition-all cursor-pointer ${
                   filters.showWeekend2
-                    ? "bg-[#5B7C63] text-white shadow-xs"
-                    : "text-[#7A746B] hover:text-[#2B2523] hover:bg-[#FAF4E8]/80"
+                    ? "bg-[#C85C40] text-white shadow-xs"
+                    : "text-[#4F4744]/70 hover:text-[#1A1615] hover:bg-black/5"
                 }`}
                 title="Weekend 2"
               >
@@ -114,8 +114,8 @@ export default function Header({
                 onClick={handleWeekend3Toggle}
                 className={`w-8 h-7 flex items-center justify-center text-xs font-bold rounded-full transition-all cursor-pointer ${
                   filters.showWeekend3
-                    ? "bg-[#5B7C63] text-white shadow-xs"
-                    : "text-[#7A746B] hover:text-[#2B2523] hover:bg-[#FAF4E8]/80"
+                    ? "bg-[#C85C40] text-white shadow-xs"
+                    : "text-[#4F4744]/70 hover:text-[#1A1615] hover:bg-black/5"
                 }`}
                 title="Weekend 3"
               >
@@ -129,19 +129,19 @@ export default function Header({
         <div className="hidden md:flex flex-col md:flex-row gap-3 items-stretch md:items-center mt-4">
           {/* Search Input */}
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A296]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5C5245]" />
             <input
               type="text"
               value={filters.searchQuery}
               onChange={handleSearchChange}
               placeholder="Search artists, mediums, or studios..."
-              className="w-full bg-[#F5EFE6]/45 border border-[#EAE3D5] rounded-xl pl-9 pr-10 py-2.5 text-base md:text-sm text-[#2B2523] placeholder-[#A8A296] focus:outline-hidden focus:ring-2 focus:ring-[#C85C40]/20 focus:border-[#C85C40] focus:bg-white transition-all"
+              className="w-full bg-white border border-black/10 rounded-xl pl-9 pr-10 py-2.5 text-base md:text-sm text-[#1A1615] placeholder-[#5C5245]/70 focus:outline-hidden focus:ring-2 focus:ring-[#C85C40]/20 focus:border-[#C85C40] focus:bg-white shadow-xs transition-all"
             />
             {filters.searchQuery && (
               <button
                 type="button"
                 onClick={() => onFilterChange({ ...filters, searchQuery: "" })}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A8A296] hover:text-[#2B2523] p-1.5 rounded-lg hover:bg-[#F5EFE6] transition-all cursor-pointer flex items-center justify-center"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5C5245] hover:text-[#1A1615] p-1.5 rounded-lg hover:bg-black/5 transition-all cursor-pointer flex items-center justify-center"
                 title="Clear search"
               >
                 <X className="w-4 h-4" />
@@ -151,11 +151,11 @@ export default function Header({
 
           {/* Medium selector */}
           <div className="relative min-w-[160px]">
-            <Layers className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A296] pointer-events-none" />
+            <Layers className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5C5245] pointer-events-none" />
             <select
               value={filters.selectedMedium}
               onChange={handleMediumChange}
-              className="w-full bg-[#F5EFE6]/45 border border-[#EAE3D5] rounded-xl pl-9 pr-8 py-2.5 text-base md:text-sm text-[#2B2523] focus:outline-hidden focus:ring-2 focus:ring-[#C85C40]/20 focus:border-[#C85C40] focus:bg-white appearance-none cursor-pointer transition-all"
+              className="w-full bg-white border border-black/10 rounded-xl pl-9 pr-8 py-2.5 text-base md:text-sm text-[#1A1615] focus:outline-hidden focus:ring-2 focus:ring-[#C85C40]/20 focus:border-[#C85C40] focus:bg-white appearance-none cursor-pointer transition-all shadow-xs"
             >
               <option value="">All Mediums</option>
               {mediums.map((med) => (
@@ -164,7 +164,7 @@ export default function Header({
                 </option>
               ))}
             </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#A8A296]">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#5C5245]">
               <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
                 <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
               </svg>
@@ -172,17 +172,17 @@ export default function Header({
           </div>
 
           {/* Weekend Checkboxes */}
-          <div className="flex gap-1.5 items-center bg-[#F5EFE6]/45 border border-[#EAE3D5] rounded-xl p-1 shrink-0 h-10">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-[#7A746B] pl-2.5 pr-1 select-none flex items-center gap-1.5">
-              <CalendarDays className="w-3.5 h-3.5 text-[#5B7C63]" />
+          <div className="flex gap-1.5 items-center bg-white border border-black/10 rounded-xl p-1 shrink-0 h-10 shadow-xs">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#4A3C15] pl-2.5 pr-1 select-none flex items-center gap-1.5">
+              <CalendarDays className="w-3.5 h-3.5 text-[#C85C40]" />
               Weekends
             </span>
             <button
               onClick={handleWeekend1Toggle}
               className={`w-8 h-8 flex items-center justify-center text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 filters.showWeekend1
-                  ? "bg-[#5B7C63] text-white shadow-xs"
-                  : "text-[#7A746B] hover:text-[#2B2523] hover:bg-[#FAF4E8]/80"
+                  ? "bg-[#C85C40] text-white shadow-xs"
+                  : "text-[#4F4744]/70 hover:text-[#1A1615] hover:bg-black/5"
               }`}
               title="Weekend 1"
             >
@@ -192,8 +192,8 @@ export default function Header({
               onClick={handleWeekend2Toggle}
               className={`w-8 h-8 flex items-center justify-center text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 filters.showWeekend2
-                  ? "bg-[#5B7C63] text-white shadow-xs"
-                  : "text-[#7A746B] hover:text-[#2B2523] hover:bg-[#FAF4E8]/80"
+                  ? "bg-[#C85C40] text-white shadow-xs"
+                  : "text-[#4F4744]/70 hover:text-[#1A1615] hover:bg-black/5"
               }`}
               title="Weekend 2"
             >
@@ -203,8 +203,8 @@ export default function Header({
               onClick={handleWeekend3Toggle}
               className={`w-8 h-8 flex items-center justify-center text-xs font-bold rounded-lg transition-all cursor-pointer ${
                 filters.showWeekend3
-                  ? "bg-[#5B7C63] text-white shadow-xs"
-                  : "text-[#7A746B] hover:text-[#2B2523] hover:bg-[#FAF4E8]/80"
+                  ? "bg-[#C85C40] text-white shadow-xs"
+                  : "text-[#4F4744]/70 hover:text-[#1A1615] hover:bg-black/5"
               }`}
               title="Weekend 3"
             >
