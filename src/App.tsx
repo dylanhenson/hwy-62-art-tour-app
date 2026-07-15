@@ -35,7 +35,7 @@ export default function App() {
   // 3. Layout and Mobile Viewport Detection
   const [isMobile, setIsMobile] = useState(false);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-  const [isMobileListMinimized, setIsMobileListMinimized] = useState(true);
+  const [mobileHeightMode, setMobileHeightMode] = useState<"minimized" | "half" | "full">("minimized");
 
   useEffect(() => {
     const checkMobile = () => {
@@ -45,6 +45,15 @@ export default function App() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Auto-expand mobile bottom sheet when typing a search query to show results instantly
+  useEffect(() => {
+    if (isMobile && filters.searchQuery.trim().length > 0) {
+      if (mobileHeightMode === "minimized") {
+        setMobileHeightMode("half");
+      }
+    }
+  }, [filters.searchQuery, isMobile]);
 
   // 4. Collect unique mediums across all artists
   const uniqueMediums = useMemo(() => {
@@ -63,22 +72,20 @@ export default function App() {
   const filteredStudios = useMemo(() => {
     const list = studios.filter((studio) => {
       // a. Weekend Availability Filter
-      if (studio.studioNumber !== 58) {
-        const showAnyWeekend = filters.showWeekend1 || filters.showWeekend2 || filters.showWeekend3;
-        if (!showAnyWeekend) return false;
+      const showAnyWeekend = filters.showWeekend1 || filters.showWeekend2 || filters.showWeekend3;
+      if (!showAnyWeekend) return false;
 
-        let isAvailableOnSelectedWeekends = false;
-        if (filters.showWeekend1 && studio.weekends.includes("Weekend 1")) {
-          isAvailableOnSelectedWeekends = true;
-        }
-        if (filters.showWeekend2 && studio.weekends.includes("Weekend 2")) {
-          isAvailableOnSelectedWeekends = true;
-        }
-        if (filters.showWeekend3 && studio.weekends.includes("Weekend 3")) {
-          isAvailableOnSelectedWeekends = true;
-        }
-        if (!isAvailableOnSelectedWeekends) return false;
+      let isAvailableOnSelectedWeekends = false;
+      if (filters.showWeekend1 && studio.weekends.includes("Weekend 1")) {
+        isAvailableOnSelectedWeekends = true;
       }
+      if (filters.showWeekend2 && studio.weekends.includes("Weekend 2")) {
+        isAvailableOnSelectedWeekends = true;
+      }
+      if (filters.showWeekend3 && studio.weekends.includes("Weekend 3")) {
+        isAvailableOnSelectedWeekends = true;
+      }
+      if (!isAvailableOnSelectedWeekends) return false;
 
       // b. Medium/Category Filter (matches if at least one artist in studio matches)
       if (filters.selectedMedium) {
@@ -156,7 +163,7 @@ export default function App() {
   }, [filteredStudios, selectedStudio]);
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#FCFAF7] font-sans antialiased text-[#2B2523]">
+    <div className="flex flex-col h-full w-full overflow-hidden bg-[#FCFAF7] font-sans antialiased text-[#2B2523]">
       {/* Settings / Search header */}
       <Header
         filters={filters}
@@ -175,11 +182,12 @@ export default function App() {
           selectedStudio={selectedStudio}
           onSelectStudio={handleSelectStudio}
           isMobile={isMobile}
-          isMobileListMinimized={isMobileListMinimized}
-          setIsMobileListMinimized={setIsMobileListMinimized}
+          mobileHeightMode={mobileHeightMode}
+          setMobileHeightMode={setMobileHeightMode}
           showMobileFullProfile={showMobileFullProfile}
           setShowMobileFullProfile={setShowMobileFullProfile}
-          searchQuery={filters.searchQuery}
+          filters={filters}
+          onFilterChange={setFilters}
         />
 
         {/* High-Fidelity Leaflet Map */}
@@ -189,7 +197,7 @@ export default function App() {
             selectedStudio={selectedStudio}
             onSelectStudio={handleSelectStudio}
             isFiltersOpen={isFiltersOpen}
-            isMobileListMinimized={isMobileListMinimized}
+            mobileHeightMode={mobileHeightMode}
             isMobile={isMobile}
             filters={filters}
           />
