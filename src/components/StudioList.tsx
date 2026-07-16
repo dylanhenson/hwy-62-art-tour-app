@@ -75,7 +75,7 @@ export default function StudioList({
                 {/* Header Row: Studio number + Artist count text */}
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-xs font-bold font-mono text-[#C85C40] bg-[#C85C40]/10 px-2 py-0.5 rounded-md">
+                    <span className="text-xs font-bold font-mono text-[#C85C40] bg-white px-2 py-0.5 rounded-md">
                       STUDIO #{studio.studioNumber}
                     </span>
                     <span className={`text-[11px] font-bold ${isSelected ? "text-[#5C5245]" : "text-[#4A3C15]"}`}>
