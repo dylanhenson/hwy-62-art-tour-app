@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
+    "predev": "tsx src/data/builder.ts",
     "prebuild": "tsx src/data/builder.ts",
     "build": "vite build",
     "preview": "vite preview",
