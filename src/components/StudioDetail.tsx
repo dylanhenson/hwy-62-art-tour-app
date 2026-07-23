@@ -1,8 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, Sparkles, Calendar, MapPin, Navigation, Phone, Mail, Globe, Search, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Sparkles, Calendar, MapPin, Navigation, Phone, Mail, Globe, Search, AlertTriangle, Facebook, Instagram } from "lucide-react";
 import { Studio, Artist } from "../types";
 import { MEDIUM_COLORS } from "../data/defaultArtists";
 import SafeImage from "./SafeImage";
+
+function getFacebookUrl(fb: string): string {
+  const trimmed = fb.trim();
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+    return trimmed;
+  }
+  if (trimmed.startsWith("facebook.com") || trimmed.startsWith("www.facebook.com")) {
+    return `https://${trimmed}`;
+  }
+  const handle = trimmed.replace(/^@/, "");
+  if (handle.includes(" ")) {
+    return `https://www.facebook.com/search/top/?q=${encodeURIComponent(handle)}`;
+  }
+  return `https://www.facebook.com/${handle}`;
+}
+
+function getFacebookDisplay(fb: string): string {
+  let cleaned = fb.trim();
+  if (cleaned.startsWith("http://") || cleaned.startsWith("https://")) {
+    cleaned = cleaned.replace(/^https?:\/\/(www\.)?facebook\.com\//i, "");
+  } else if (cleaned.startsWith("facebook.com/")) {
+    cleaned = cleaned.replace(/^facebook\.com\//i, "");
+  }
+  cleaned = cleaned.replace(/\/$/, "");
+  if (!cleaned.startsWith("@") && !cleaned.includes(" ")) {
+    return `@${cleaned}`;
+  }
+  return cleaned || "Facebook";
+}
 
 interface StudioDetailProps {
   studio: Studio;
@@ -170,16 +199,16 @@ function ArtistCard({
           )}
         </div>
 
-        <div className="flex gap-2 pt-1">
+        <div className="flex flex-wrap gap-2 pt-1">
           {artist.website && (
             <a
               href={artist.website.startsWith("http") ? artist.website : `https://${artist.website}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 border border-black/10 rounded-lg text-[10px] font-black text-[#1A1615] bg-[#fec811]/10 hover:bg-[#fec811] hover:text-[#1A1615] transition-colors shadow-3xs cursor-pointer"
+              className="flex-1 min-w-[90px] inline-flex items-center justify-center gap-1.5 py-1.5 px-2 border border-black/10 rounded-lg text-[10px] font-black text-[#1A1615] bg-[#fec811]/10 hover:bg-[#fec811] hover:text-[#1A1615] transition-colors shadow-3xs cursor-pointer"
             >
-              <Globe className="w-3.5 h-3.5 text-[#5C5245]" />
-              Website
+              <Globe className="w-3.5 h-3.5 text-[#5C5245] shrink-0" />
+              <span className="truncate">Website</span>
             </a>
           )}
           {artist.instagram && (
@@ -187,10 +216,21 @@ function ArtistCard({
               href={`https://instagram.com/${artist.instagram.replace("@", "")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 border border-black/10 rounded-lg text-[10px] font-black text-[#1A1615] bg-[#fec811]/10 hover:bg-[#fec811] hover:text-[#1A1615] transition-colors shadow-3xs cursor-pointer"
+              className="flex-1 min-w-[90px] inline-flex items-center justify-center gap-1.5 py-1.5 px-2 border border-black/10 rounded-lg text-[10px] font-black text-[#1A1615] bg-[#fec811]/10 hover:bg-[#fec811] hover:text-[#1A1615] transition-colors shadow-3xs cursor-pointer"
             >
-              <span className="text-[#5C5245] font-black text-[9px] tracking-tight">IG</span>
-              @{artist.instagram.replace("@", "")}
+              <Instagram className="w-3.5 h-3.5 text-[#E1306C] shrink-0" />
+              <span className="truncate">@{artist.instagram.replace("@", "")}</span>
+            </a>
+          )}
+          {artist.facebook && (
+            <a
+              href={getFacebookUrl(artist.facebook)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 min-w-[90px] inline-flex items-center justify-center gap-1.5 py-1.5 px-2 border border-black/10 rounded-lg text-[10px] font-black text-[#1A1615] bg-[#fec811]/10 hover:bg-[#fec811] hover:text-[#1A1615] transition-colors shadow-3xs cursor-pointer"
+            >
+              <Facebook className="w-3.5 h-3.5 text-[#1877F2] shrink-0 fill-current" />
+              <span className="truncate">{getFacebookDisplay(artist.facebook)}</span>
             </a>
           )}
         </div>
