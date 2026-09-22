@@ -71,22 +71,28 @@ export default function MapContainer({
     });
 
     const metaEnv = (import.meta as any).env || {};
-    const cartoKey =
-      (metaEnv.VITE_CARTO_API_KEY as string) ||
-      (metaEnv.VITE_CARTO_KEY as string) ||
-      "";
-    const tileUrl = cartoKey
-      ? `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${cartoKey}`
-      : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
+    const mapboxToken = (metaEnv.VITE_MAPBOX_TOKEN as string) || "";
 
-    // Non-topographic, flat CartoDB Voyager map (no red military box, soft desert colors, no hillshading)
-    L.tileLayer(tileUrl, {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: "abcd",
-      maxZoom: 20,
-      r: typeof window !== "undefined" && window.devicePixelRatio > 1 ? "@2x" : "",
-    } as any).addTo(map);
+    if (mapboxToken) {
+      // Custom Mapbox style (mapbox://styles/dhenson/clzvmdovr000901pnf98i1p1i)
+      L.tileLayer(
+        `https://api.mapbox.com/styles/v1/dhenson/clzvmdovr000901pnf98i1p1i/tiles/512/{z}/{x}/{y}@2x?access_token=${mapboxToken}`,
+        {
+          attribution:
+            '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          tileSize: 512,
+          zoomOffset: -1,
+          maxZoom: 19,
+        }
+      ).addTo(map);
+    } else {
+      // Fallback to OpenStreetMap while token is being configured
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+      }).addTo(map);
+    }
 
     L.control
       .zoom({
