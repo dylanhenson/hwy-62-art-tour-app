@@ -68,8 +68,7 @@ export const DEFAULT_STUDIOS: Studio[] = [
     "lat": 34.1587984,
     "lng": -115.8969123,
     "gpsFriendly": true,
-    "notGpsFriendly": true,
-    "directions": "From HWY 62 in 29 Palms\nN on Ironage RD 3.1 miles\nL on Amboy RD 1.4 miles\nL on Danby RD 0.1 miles\nThe studio is in the house on the right.",
+    "notGpsFriendly": false,
     "weekends": [
       "Weekend 1",
       "Weekend 2",
