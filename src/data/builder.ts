@@ -399,17 +399,29 @@ async function run() {
 
     const address = (getField(sourceRow, ["STUDIO ADDRESS", "Studio Address"]) || "Desert Studio Location").trim();
     
-    let town = getField(sourceRow, ["Town"])?.trim();
-    let zipCode = getField(sourceRow, ["Zip Code"])?.trim();
-
-    if (!town || !zipCode) {
-      const zipMatch = address.match(/\b(922\d{2})\b/);
-      if (zipMatch) {
-        zipCode = zipMatch[1];
-      } else {
-        zipCode = "92252";
+    // Look for zipCode across sourceRow or any row belonging to this studio
+    let zipCode = getField(sourceRow, ["Zip_Code", "Zip Code", "ZipCode", "Zip", "ZIP"])?.trim();
+    if (!zipCode) {
+      for (const r of rawArtists) {
+        const z = getField(r, ["Zip_Code", "Zip Code", "ZipCode", "Zip", "ZIP"])?.trim();
+        if (z) {
+          zipCode = z;
+          break;
+        }
       }
-      
+    }
+
+    let town = getField(sourceRow, ["Town"])?.trim();
+    if (!town) {
+      for (const r of rawArtists) {
+        const t = getField(r, ["Town"])?.trim();
+        if (t) {
+          town = t;
+          break;
+        }
+      }
+    }
+    if (!town) {
       const parts = address.split(",").map(p => p.trim());
       if (parts.length >= 2) {
         const potentialTown = parts[parts.length - 2];
@@ -423,6 +435,28 @@ async function run() {
         town = "Joshua Tree";
       }
     }
+
+    if (!zipCode) {
+      const zipMatch = address.match(/\b(922\d{2})\b/);
+      if (zipMatch) {
+        zipCode = zipMatch[1];
+      } else {
+        const townLower = town.toLowerCase();
+        if (townLower.includes("twentynine") || townLower.includes("29") || townLower.includes("wonder")) {
+          zipCode = "92277";
+        } else if (townLower.includes("yucca")) {
+          zipCode = "92284";
+        } else if (townLower.includes("morongo")) {
+          zipCode = "92256";
+        } else if (townLower.includes("pioneer")) {
+          zipCode = "92268";
+        } else if (townLower.includes("landers")) {
+          zipCode = "92285";
+        } else {
+          zipCode = "92252";
+        }
+      }
+    }
     
     const gpsFriendlyVal = getField(sourceRow, [
       "GPS Friendly?",
@@ -430,10 +464,16 @@ async function run() {
     ]) || "";
     const gpsFriendly = !gpsFriendlyVal.toLowerCase().includes("no");
     
-    const notGpsFriendlyVal = getField(sourceRow, ["Not GPS Friendly"]) || "";
-    const notGpsFriendly = notGpsFriendlyVal.trim().toLowerCase().includes("don't use gps");
+    let notGpsFriendly = false;
+    for (const r of rawArtists) {
+      const notGpsFriendlyVal = getField(r, ["Not GPS Friendly"]) || "";
+      if (notGpsFriendlyVal.trim().toLowerCase().includes("don't use gps") || notGpsFriendlyVal.trim().toLowerCase().includes("dont use gps")) {
+        notGpsFriendly = true;
+        break;
+      }
+    }
     
-    const directions = getField(sourceRow, [
+    let directions = getField(sourceRow, [
       "TURN BY TURN DIRECTIONS\n(only listed for host artist on shared studios)",
       "TURN BY TURN DIRECTIONS - (only listed for host artist on shared studios)",
       "TURN BY TURN DIRECTIONS",
@@ -441,6 +481,23 @@ async function run() {
       "Studio Directions - Only required from solo and host artists at studios that are not GPS friendly.",
       "Studio Directions -DIRECTLY FROM REGISTRATION (comments in grey can be ignored)"
     ]) || "";
+
+    if (!directions) {
+      for (const r of rawArtists) {
+        const d = getField(r, [
+          "TURN BY TURN DIRECTIONS\n(only listed for host artist on shared studios)",
+          "TURN BY TURN DIRECTIONS - (only listed for host artist on shared studios)",
+          "TURN BY TURN DIRECTIONS",
+          "John's Reworked Directions - Use in Catalog",
+          "Studio Directions - Only required from solo and host artists at studios that are not GPS friendly.",
+          "Studio Directions -DIRECTLY FROM REGISTRATION (comments in grey can be ignored)"
+        ])?.trim();
+        if (d) {
+          directions = d;
+          break;
+        }
+      }
+    }
 
     const csvStudioName = studioMeta.rows && studioMeta.rows[0] ? studioMeta.rows[0]["Studio or Venue"] : "";
     const isPlaceholder = primaryArtist.id.startsWith("studio-placeholder-");
